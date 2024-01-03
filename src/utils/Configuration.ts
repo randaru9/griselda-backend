@@ -1,4 +1,4 @@
-// import { ExtractJwt } from 'passport-jwt';
+import { ExtractJwt } from 'passport-jwt';
 
 export const Configuration = () => ({
 	database: {
@@ -13,16 +13,16 @@ export const Configuration = () => ({
 		synchronize: process.env.DB_SYNC,
 		entities: [__dirname + '/../**/*.entity.{ts,js}'],
 	},
-	// jwt: {
-	// 	global: process.env.JWT_GLOBAL,
-	// 	secret: process.env.JWT_SECRET,
-	// 	signOptions: {
-	// 		expiresIn: process.env.JWT_EXPIRES_IN,
-	// 	},
-	// },
-	// jwtStrategy: {
-	// 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-	// 	ignoreExpiration: process.env.JWT_STRATEGY_IGNORE_EXPIRATION,
-	// 	secretOrKey: process.env.JWT_SECRET,
-	// }
+	jwt: {
+		global: process.env.JWT_GLOBAL,
+		secret: process.env.JWT_SECRET,
+		signOptions: {
+			expiresIn: process.env.JWT_EXPIRES_IN,
+		},
+	},
+	jwtStrategy: {
+		jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+		ignoreExpiration: process.env.JWT_STRATEGY_IGNORE_EXPIRATION,
+		secretOrKey: process.env.JWT_SECRET,
+	}
 })

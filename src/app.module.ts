@@ -1,10 +1,12 @@
 import { TypeOrmConfig } from './utils/TypeOrmConfig';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+// import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
-import { AppService } from './app.service';
+// import { AppService } from './app.service';
 import { Configuration } from './utils/Configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminModule } from './admin/admin.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,9 +17,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfig,
-    })
+    }),
+    AdminModule,
+    AuthModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // controllers: [AppController],
+  // providers: [AppService],
 })
 export class AppModule {}
