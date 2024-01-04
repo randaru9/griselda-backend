@@ -9,6 +9,7 @@ import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { LessonModule } from './lesson/lesson.module';
 import { CategoryModule } from './category/category.module';
+import { CountModule } from './count/count.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { CategoryModule } from './category/category.module';
     AdminModule,
     AuthModule,
     LessonModule,
-    CategoryModule
+    CategoryModule,
+    CountModule
   ],
   // controllers: [AppController],
   // providers: [AppService],
