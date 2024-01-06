@@ -2,7 +2,10 @@
 import { 
 	Entity,
 	Column,
-	PrimaryGeneratedColumn
+	PrimaryGeneratedColumn,
+	CreateDateColumn,
+	UpdateDateColumn,
+	DeleteDateColumn
 } from 'typeorm';
 
 @Entity('count')
@@ -13,4 +16,10 @@ export class CountEntity {
     name: string;
     @Column({default: 0})
 	value: number;
+	@CreateDateColumn()
+	create_at: Date;
+	@UpdateDateColumn()
+	update_at: Date;
+	@DeleteDateColumn()
+	delete_at: Date;
 }

@@ -2,26 +2,23 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Put, UseGuar
 import { AdminGuard } from 'src/utils';
 import { CountService } from './count.service';
 import { CreateCountDTO, UpdateCountDTO } from './dto/count.dto';
-// import { CreateCountDto } from './dto/create-count.dto';
-// import { UpdateCountDto } from './dto/update-count.dto';
-
 @Controller('count')
 export class CountController {
   constructor(
     @Inject('COUNT_SERVICE') private readonly countService: CountService
     ) {}
 
-	@UseGuards(AdminGuard)
-  @Post('/create')
-  create(@Body() createCountDto: CreateCountDTO) {
-    return this.countService.create(createCountDto);
-  }
+	// @UseGuards(AdminGuard)
+  // @Post('/create')
+  // create(@Body() createCountDto: CreateCountDTO) {
+  //   return this.countService.create(createCountDto);
+  // }
 
 	@UseGuards(AdminGuard)
   @Get()
   findAll() {
     return this.countService.findAll();
-  }
+  } 
 
 	@UseGuards(AdminGuard)
   @Get('get/:name')
