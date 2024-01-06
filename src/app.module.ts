@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { LessonModule } from './lesson/lesson.module';
 import { CategoryModule } from './category/category.module';
 import { CountModule } from './count/count.module';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CountModule } from './count/count.module';
       imports: [ConfigModule],
       useClass: TypeOrmConfig,
     }),
+    NestjsFormDataModule,
     AdminModule,
     AuthModule,
     LessonModule,

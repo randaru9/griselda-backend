@@ -1,34 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete ,Body, Res, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import {Response} from "express";
+import { CreateLessonDTO } from './dto/lesson.dto';
 import { LessonService } from './lesson.service';
-import { CreateLessonDto } from './dto/create-lesson.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
+import  * as path from "path";
+import * as fs from 'fs/promises';
+
+interface FileParams {
+  fileName : string;
+}
 
 @Controller('lesson')
 export class LessonController {
   constructor(private readonly lessonService: LessonService) {}
 
-  @Post()
-  create(@Body() createLessonDto: CreateLessonDto) {
-    return this.lessonService.create(createLessonDto);
+  @Post('/uploadFile')
+  @UseInterceptors(FileInterceptor('file',{
+    storage : diskStorage({
+      destination : "./storage/",
+      filename : (req , file , cb) => {
+        console.log(req.query);
+        cb(null , `${Date.now() + file.originalname}`)
+      }
+    })
+  }))
+  upload(@UploadedFile () file) {
+    return file.filename;
   }
 
-  @Get()
-  findAll() {
-    return this.lessonService.findAll();
+  @Put('/updateFile')
+  @UseInterceptors(FileInterceptor('file',{
+    storage : diskStorage({
+      destination : "./storage/",
+      filename : (req , file , cb) => {
+        console.log(req.query);
+        cb(null , `${req.query.name}`)
+      }
+    })
+  }))
+  updatefile(@UploadedFile () file) {
+    return file.filename;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.lessonService.findOne(+id);
+  @Get('/getFile')
+  getFile(@Res() res : Response, @Query() req)
+  {
+    res.sendFile(path.join(__dirname , `../../storage/${req.name}`));
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
-    return this.lessonService.update(+id, updateLessonDto);
+  @Delete('deleteFile')
+  deleteFile(@Body() file) {
+    fs.unlink(path.join(__dirname , `../../storage/${file.file}`))
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lessonService.remove(+id);
-  }
+  // @Get()
+  // findAll() {
+  //   return this.lessonService.findAll();
+  // }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.lessonService.findOne(+id);
+  // }
+
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
+  //   return this.lessonService.update(+id, updateLessonDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.lessonService.remove(+id);
+  // }
 }
