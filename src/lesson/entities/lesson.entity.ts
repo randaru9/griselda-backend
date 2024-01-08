@@ -13,8 +13,8 @@ import { CategoryEntity } from 'src/category/entities/category.entity';
 export class LessonEntity extends ParentEntity {
     // @Column(()=> ManyToOne(() => CategoryEntity, category => category.id))
     @ManyToOne(() => CategoryEntity)
-    @JoinColumn({ name: 'category_id' })
-    category_id: CategoryEntity;
+    @JoinColumn({ name: 'category' })
+    category: CategoryEntity;
     @Column({ unique: true })
 	name: string;
     @Column()
