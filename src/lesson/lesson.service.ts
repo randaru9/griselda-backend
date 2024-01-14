@@ -52,7 +52,7 @@ export class LessonService {
   }
 
   getById(id: string) {
-    return this.lessonRepository.findOneBy({id});
+    return this.lessonRepository.findOne({ where : { id }, relations: { category: true } });
   }
 
   async update(updateLessonDto: UpdateLessonDTO) {

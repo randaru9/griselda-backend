@@ -1,16 +1,16 @@
-import { 
+import {
 	HttpStatus,
 	HttpException,
 	ValidationPipe
 } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import {NestExpressApplication} from "@nestjs/platform-express";
+import { NestExpressApplication } from "@nestjs/platform-express";
 // import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
-import { 
-	ErrorI, 
-	MapError, 
-	HttpExceptionFilter 
+import { urlencoded, json } from 'express';
+import {
+	ErrorI,
+	MapError,
+	HttpExceptionFilter
 } from './utils';
 import { AppModule } from './app.module';
 import * as path from "path";
@@ -19,6 +19,8 @@ async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 	// Set 'api' prefix
 	app.setGlobalPrefix('api');
+	app.use(json({ limit: '50mb' }));
+	app.use(urlencoded({ extended: true, limit: '50mb' }));
 	// Use global pipes
 	app.useGlobalPipes(
 		new ValidationPipe({
@@ -28,7 +30,7 @@ async function bootstrap() {
 			},
 			stopAtFirstError: false,
 		}),
-		);
+	);
 	// Use global exception filters
 	app.useGlobalFilters(new HttpExceptionFilter());
 	// // Use swagger module
@@ -40,7 +42,7 @@ async function bootstrap() {
 	// .build();
 	// const swaggerDoc = SwaggerModule.createDocument(app, config);
 	// SwaggerModule.setup('api-documentation', app, swaggerDoc);
-	app.useStaticAssets(path.join(__dirname , "../uploads"));
-	await app.listen(3000);
+	app.useStaticAssets(path.join(__dirname, "../uploads"));
+	await app.listen(3001);
 }
 bootstrap();

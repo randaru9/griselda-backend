@@ -57,14 +57,12 @@ export class AuthService {
 
 	async sendOtp (email: string): Promise<AdminEntity | null> {
 		const admin: AdminEntity | null = await this.adminService.getAdminByEmail(email);
-
 		if (admin) {
-			const otp: string = await this.adminService.setOtp(email, getOTP());
-			
+			const otp: string = await this.adminService.setOtp(email, getOTP());	
 			this.mailerService.sendMail({
 				to: email,
 				from: '...@gmail.com',
-				subject: 'OTP Point of Sale',
+				subject: 'OTP Griselda',
 				text: 'OTP',
 				html: 'otp: ' + otp
 			});

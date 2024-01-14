@@ -7,31 +7,34 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { AdminJwtStrategy } from 'src/utils';
 // import { AdminAuthService } from './admin-auth.service';
 import { AuthService } from './auth.service';
-import { AdminModule } from 'src/admin/admin.module'; 
+import { AdminModule } from 'src/admin/admin.module';
 import { MailerAccount, JwtConfigService } from 'src/config';
 import { AdminAuthEntity } from './entities/auth.entity';
-import { AuthController } from './auth.controller'; 
+import { AuthController } from './auth.controller';
 
 const imports = [
 	AdminModule,
 	TypeOrmModule.forFeature([AdminAuthEntity]),
 	JwtModule.registerAsync({ imports: [ConfigModule], useClass: JwtConfigService }),
-	MailerModule.forRoot({ 
-		transport: { 
-			host: 'smtp.gmail.com', 
-			auth: MailerAccount
-		} 
+	MailerModule.forRoot({
+		transport: {
+			host: 'smtp.gmail.com',
+			auth: {
+				user: 'okkoy.1401@gmail.com',
+				pass: ''
+			}
+		}
 	})
-	];
+];
 const providers = [
-{
-	provide: 'AUTH_ADMIN_SERVICE',
-	useClass: AuthService
-},
-{
-	provide: 'ADMIN_JWT_STRATEGY',
-	useClass: AdminJwtStrategy
-}
+	{
+		provide: 'AUTH_ADMIN_SERVICE',
+		useClass: AuthService
+	},
+	{
+		provide: 'ADMIN_JWT_STRATEGY',
+		useClass: AdminJwtStrategy
+	}
 ];
 const controllers = [AuthController];
 
@@ -40,4 +43,4 @@ const controllers = [AuthController];
 	providers,
 	controllers
 })
-export class AuthModule {}
+export class AuthModule { }

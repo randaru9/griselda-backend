@@ -9,6 +9,7 @@ import * as fs from 'fs/promises';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { LessonEntity } from './entities/lesson.entity';
 import { AdminGuard, RESPONSE } from 'src/utils';
+import { error } from 'console';
 
 @Controller('lesson')
 export class LessonController {
@@ -20,13 +21,12 @@ export class LessonController {
     storage : diskStorage({
       destination : "./storage/",
       filename : (req , file , cb) => {
-        console.log(req.query);
         cb(null , `${Date.now() + file.originalname}`)
       }
     })
   }))
   upload(@UploadedFile () file) {
-    return file.filename;
+      return file.filename;
   }
 
   @UseGuards(AdminGuard)
@@ -35,7 +35,6 @@ export class LessonController {
     storage : diskStorage({
       destination : "./storage/",
       filename : (req , file , cb) => {
-        console.log(req.query);
         cb(null , `${req.query.name}`)
       }
     })
@@ -44,17 +43,25 @@ export class LessonController {
     return file.filename;
   }
 
-  @UseGuards(AdminGuard)
+  // @UseGuards(AdminGuard)
   @Get('/getFile')
   getFile(@Res() res : Response, @Query() req)
   {
     res.sendFile(path.join(__dirname , `../../storage/${req.name}`));
   }
 
+  
   @UseGuards(AdminGuard)
   @Delete('/deleteFile')
-  deleteFile(@Body() file) {
-    fs.unlink(path.join(__dirname , `../../storage/${file.file}`))
+  async deleteFile(@Body() file) {
+    try {
+      await fs.access(path.join(__dirname , `../../storage/${file.file}`))
+      await fs.unlink(path.join(__dirname , `../../storage/${file.file}`))
+    }catch (err) {
+      if (err.code === 'ENOENT') {
+        return { success: false, message: 'File not found.' };
+      }
+    }
   }
 
   @UseGuards(AdminGuard)
@@ -81,7 +88,7 @@ export class LessonController {
   }
 
   @UseGuards(AdminGuard)
-  @Get('getById')
+  @Post('getById')
   getById(@Body('id') id: string) {
     return this.lessonService.getById(id);
   }

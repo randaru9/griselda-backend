@@ -44,7 +44,7 @@ export class CreateLessonDTO {
     @IsNotEmpty({ message: 'deskripsi wajib diisi' })
     @IsString({ message: 'Deskripsi harus berupa string' })
     description : string;
-    // @IsNotEmpty({ message: 'image wajib diisi' })
+    @IsNotEmpty({ message: 'image wajib diisi' })
     image : string;
 }
 
