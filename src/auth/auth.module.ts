@@ -3,28 +3,23 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
-
 import { AdminJwtStrategy } from 'src/utils';
 // import { AdminAuthService } from './admin-auth.service';
 import { AuthService } from './auth.service';
 import { AdminModule } from 'src/admin/admin.module';
-import { MailerAccount, JwtConfigService } from 'src/config';
+import { JwtConfigService } from 'src/config';
 import { AdminAuthEntity } from './entities/auth.entity';
 import { AuthController } from './auth.controller';
+import { MailerConfig } from 'src/utils/MailerConfig';
 
 const imports = [
 	AdminModule,
 	TypeOrmModule.forFeature([AdminAuthEntity]),
 	JwtModule.registerAsync({ imports: [ConfigModule], useClass: JwtConfigService }),
-	MailerModule.forRoot({
-		transport: {
-			host: 'smtp.gmail.com',
-			auth: {
-				user: 'okkoy.1401@gmail.com',
-				pass: ''
-			}
-		}
-	})
+	MailerModule.forRootAsync({ 
+		imports: [ConfigModule],
+		useClass: MailerConfig
+	}),
 ];
 const providers = [
 	{

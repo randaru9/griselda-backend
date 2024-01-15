@@ -24,5 +24,14 @@ export const Configuration = () => ({
 		jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 		ignoreExpiration: process.env.JWT_STRATEGY_IGNORE_EXPIRATION,
 		secretOrKey: process.env.JWT_SECRET,
+	},
+	mailer : {
+		transport: {
+			host: process.env.MAILER_HOST,
+			auth: {
+				user: process.env.MAILER_USER,
+				pass: process.env.MAILER_PASSWORD
+			}
+		}
 	}
 })
