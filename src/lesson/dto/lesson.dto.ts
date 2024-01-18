@@ -34,12 +34,12 @@ export class PaginationDto {
 export class FilterDto extends IntersectionType(SearchDto, PaginationDto) {}
 
 export class CreateLessonDTO {
-	@IsNotEmpty({ message: 'name wajib diisi' })
-	@IsString({ message: 'Nama harus berupa string' })
+	@IsNotEmpty({ message: 'Kategori wajib diisi' })
+	@IsString({ message: 'Kategori harus berupa string' })
     category_id : string;
-	@IsNotEmpty({ message: 'name wajib diisi' })
+	@IsNotEmpty({ message: 'Materi Pelajaran wajib diisi' })
 	@Transform(({ value }) => value.toLowerCase())
-	@IsString({ message: 'Nama harus berupa string' })
+	@IsString({ message: 'Materi Pelajaran harus berupa string' })
 	name : string;
     @IsNotEmpty({ message: 'deskripsi wajib diisi' })
     @IsString({ message: 'Deskripsi harus berupa string' })

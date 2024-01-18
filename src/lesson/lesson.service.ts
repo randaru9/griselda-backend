@@ -55,6 +55,13 @@ export class LessonService {
     return this.lessonRepository.findOne({ where : { id }, relations: { category: true } });
   }
 
+  getByCategory(id: string) {
+    if(id == ""){
+      return this.lessonRepository.find({relations : {category : true}});
+    }
+    return this.lessonRepository.find({ where : { category : { id } }, relations: { category: true } });
+  }
+
   async update(updateLessonDto: UpdateLessonDTO) {
     // return this.lessonRepository.save(updateLessonDto);
     const updateLesson : LessonEntity = await this.getById(updateLessonDto.id);

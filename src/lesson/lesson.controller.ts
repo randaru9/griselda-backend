@@ -93,6 +93,12 @@ export class LessonController {
     return this.lessonService.getById(id);
   }
 
+  // @UseGuards(AdminGuard)
+  @Get('getByCategory')
+  getByCategory(@Query('id') id: string) {
+    return this.lessonService.getByCategory(id);
+  }
+
   @UseGuards(AdminGuard)
   @Put('/update')
   update(@Body() updateLessonDto: UpdateLessonDTO) {

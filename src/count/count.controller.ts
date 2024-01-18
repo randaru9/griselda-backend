@@ -14,7 +14,7 @@ export class CountController {
   //   return this.countService.create(createCountDto);
   // }
 
-	@UseGuards(AdminGuard)
+	// @UseGuards(AdminGuard)
   @Get()
   findAll() {
     return this.countService.findAll();
