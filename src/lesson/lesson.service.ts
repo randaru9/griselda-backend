@@ -82,6 +82,6 @@ export class LessonService {
   }
 
   delete(id: string) {
-    return this.lessonRepository.softDelete(id);
+    return this.lessonRepository.delete(id);
   }
 }
